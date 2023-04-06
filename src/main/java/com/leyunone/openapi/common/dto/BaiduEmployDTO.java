@@ -12,7 +12,6 @@ import java.util.List;
 @Data
 public class BaiduEmployDTO extends HttpApiDTO {
 
-
     private String token;
     
     private String site;

@@ -1,5 +1,6 @@
 package com.leyunone.openapi.common.response;
 
+import com.leyunone.openapi.common.enums.ResultCode;
 import lombok.*;
 
 import java.io.Serializable;
@@ -22,7 +23,7 @@ public class DataResponse<T> implements Serializable {
 
     private Object message;
 
-    private String code;
+    private Integer code;
 
     public DataResponse() {
     }
@@ -31,8 +32,8 @@ public class DataResponse<T> implements Serializable {
         DataResponse<T> response = new DataResponse();
         response.setStatus(true);
         response.setData(data);
-        response.setCode(ResponseCode.SUCCESS.getCode());
-        response.setMessage(ResponseCode.SUCCESS.getDesc());
+        response.setCode(ResultCode.SUCCESS.getStatus());
+        response.setMessage(ResultCode.SUCCESS.getDesc());
         return response;
     }
 
@@ -44,27 +45,27 @@ public class DataResponse<T> implements Serializable {
         this.data = data;
     }
 
-    public static <T> DataResponse<T> of(boolean status, ResponseCode responseCode, T data) {
+    public static <T> DataResponse<T> of(boolean status, ResultCode ResultCode, T data) {
         DataResponse<T> response = new DataResponse();
         response.setStatus(status);
         response.setData(data);
-        response.setCode(responseCode.getCode());
-        response.setMessage(responseCode.getDesc());
+        response.setCode(ResultCode.getStatus());
+        response.setMessage(ResultCode.getDesc());
         return response;
     }
 
-    public static DataResponse buildFailure(ResponseCode responseCode) {
-        return of(false, responseCode, (Object)null);
+    public static DataResponse buildFailure(ResultCode ResultCode) {
+        return of(false, ResultCode, (Object)null);
     }
 
     public static DataResponse buildFailure(String message) {
-        DataResponse response = of(false, ResponseCode.ERROR, (Object)null);
+        DataResponse response = of(false, ResultCode.ERROR, (Object)null);
         response.setMessage(message);
         return response;
     }
 
     public static DataResponse buildFailure(Object message) {
-        DataResponse response = of(false, ResponseCode.ERROR, (Object)null);
+        DataResponse response = of(false, ResultCode.ERROR, (Object)null);
         response.setMessage(message);
         return response;
     }
@@ -72,16 +73,16 @@ public class DataResponse<T> implements Serializable {
     public static DataResponse buildFailure(){
         DataResponse response = new DataResponse();
         response.setStatus(false);
-        response.setCode(ResponseCode.ERROR.getCode());
-        response.setMessage(ResponseCode.ERROR.getDesc());
+        response.setCode(ResultCode.ERROR.getStatus());
+        response.setMessage(ResultCode.ERROR.getDesc());
         return response;
     }
 
     public static DataResponse buildSuccess() {
         DataResponse response = new DataResponse();
         response.setStatus(true);
-        response.setCode(ResponseCode.SUCCESS.getCode());
-        response.setMessage(ResponseCode.SUCCESS.getDesc());
+        response.setCode(ResultCode.SUCCESS.getStatus());
+        response.setMessage(ResultCode.SUCCESS.getDesc());
         return response;
     }
 
