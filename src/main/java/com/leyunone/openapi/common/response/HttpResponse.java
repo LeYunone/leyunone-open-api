@@ -1,7 +1,5 @@
 package com.leyunone.openapi.common.response;
 
-import cn.hutool.http.HttpResource;
-import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 

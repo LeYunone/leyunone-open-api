@@ -17,4 +17,6 @@ public class BaiduEmployDTO extends HttpApiDTO {
     private String site;
     
     private List<String> urls;
+    
+    private String sitemapUrl;
 }

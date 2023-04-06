@@ -8,6 +8,7 @@ import com.leyunone.openapi.common.enums.ResultCode;
 import com.leyunone.openapi.common.response.HttpResponse;
 import com.leyunone.openapi.util.AssertUtil;
 import com.leyunone.openapi.util.MyStrUtils;
+import com.leyunone.openapi.util.UrlAnalysisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,22 +35,35 @@ public class ApiService {
      * @return
      */
     public HttpResponse baiduEmploy(BaiduEmployDTO baiduEmployDTO) {
-        AssertUtil.isFalse(StringUtils.isEmpty(baiduEmployDTO.getSite()) || StringUtils.isEmpty(baiduEmployDTO.getToken()), 
+        AssertUtil.isFalse(StringUtils.isEmpty(baiduEmployDTO.getSite()) || StringUtils.isEmpty(baiduEmployDTO.getToken()),
                 ResultCode.TOKEN_SITE_NOT_EXIST);
-        AssertUtil.isFalse(CollectionUtil.isEmpty(baiduEmployDTO.getUrls()), ResultCode.PARAM_NOT_EXIST);
+        AssertUtil.isFalse(CollectionUtil.isEmpty(baiduEmployDTO.getUrls()) && StringUtils.isEmpty(baiduEmployDTO.getSitemapUrl()),
+                ResultCode.PARAM_NOT_EXIST);
         /**
          * 拼接百度Api
          */
         String url = ApiUrlEnum.BAIDU_WEB_EMPLOY.getUrl() + "?site=" + baiduEmployDTO.getSite() + "&token=" + baiduEmployDTO.getToken();
-        String urlParam = MyStrUtils.join(baiduEmployDTO.getUrls(),'\n');
-        Map<String,String> map = new HashMap<>();
-        map.put("Host","data.zz.baidu.com");
+        Map<String, String> map = new HashMap<>();
+        map.put("Host", "data.zz.baidu.com");
         map.put("User-Agent", "curl/7.12.1");
         map.put("Content-Length", "83");
         map.put("Content-Type", "text/plain");
         HttpApiDTO.Post post = HttpApiDTO.builder().url(url).headers(map).build().post();
+        String urlParam = this.baiduEmployUrl(baiduEmployDTO);
         post.setData(urlParam);
-        HttpService httpService  = new HttpService();
+        HttpService httpService = new HttpService();
         return httpService.httpPostExecute(post);
+    }
+
+    private String baiduEmployUrl(BaiduEmployDTO baiduEmployDTO) {
+        String urlParam = null;
+        if (CollectionUtil.isEmpty(baiduEmployDTO.getUrls()) && !StringUtils.isEmpty(baiduEmployDTO.getSitemapUrl())) {
+            //解析siteMap,得到url
+            urlParam = MyStrUtils.join(UrlAnalysisUtils.siteMapUrl2Str(baiduEmployDTO.getSitemapUrl()), '\n');
+        }
+        if (CollectionUtil.isNotEmpty(baiduEmployDTO.getUrls())) {
+            urlParam = MyStrUtils.join(baiduEmployDTO.getUrls(), '\n');
+        }
+        return urlParam;
     }
 }
