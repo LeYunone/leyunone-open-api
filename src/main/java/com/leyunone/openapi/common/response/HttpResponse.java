@@ -3,6 +3,8 @@ package com.leyunone.openapi.common.response;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * HTTP返回参
  *
@@ -22,6 +24,8 @@ public class HttpResponse {
      * 状态码
      */
     private Integer status;
+    
+    private List<String> results;
 
     public HttpResponse() {
     }

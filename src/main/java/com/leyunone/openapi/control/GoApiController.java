@@ -2,7 +2,7 @@ package com.leyunone.openapi.control;
 
 import com.leyunone.openapi.common.dto.BaiduEmployDTO;
 import com.leyunone.openapi.common.response.DataResponse;
-import com.leyunone.openapi.common.response.HttpResponse;
+import com.leyunone.openapi.common.vo.BaiduEmployVO;
 import com.leyunone.openapi.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +26,8 @@ public class GoApiController {
      * @return
      */
     @RequestMapping("/baiduemploy")
-    public DataResponse baiduEmploy(BaiduEmployDTO baiduEmployDTO) {
-        HttpResponse httpResponse = apiService.baiduEmploy(baiduEmployDTO);
-        return DataResponse.of(httpResponse);
+    public DataResponse<BaiduEmployVO> baiduEmploy(BaiduEmployDTO baiduEmployDTO) {
+        BaiduEmployVO baiduEmployVO = apiService.baiduEmploy(baiduEmployDTO);
+        return DataResponse.of(baiduEmployVO);
     }
 }
