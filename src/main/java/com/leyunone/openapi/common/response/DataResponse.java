@@ -54,6 +54,11 @@ public class DataResponse<T> implements Serializable {
         return response;
     }
 
+    public static <T> DataResponse<T> of() {
+        return buildSuccess();
+    }
+    
+
     public static DataResponse buildFailure(ResultCode ResultCode) {
         return of(false, ResultCode, (Object)null);
     }

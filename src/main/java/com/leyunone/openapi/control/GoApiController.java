@@ -1,6 +1,7 @@
 package com.leyunone.openapi.control;
 
 import com.leyunone.openapi.common.dto.BaiduEmployDTO;
+import com.leyunone.openapi.common.dto.IphoneSearchDTO;
 import com.leyunone.openapi.common.response.DataResponse;
 import com.leyunone.openapi.common.vo.BaiduEmployVO;
 import com.leyunone.openapi.service.ApiService;
@@ -17,12 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RestController
 public class GoApiController {
-    
+
     @Autowired
     private ApiService apiService;
 
     /**
      * 百度收录
+     *
      * @return
      */
     @RequestMapping("/baiduemploy")
@@ -30,4 +32,10 @@ public class GoApiController {
         BaiduEmployVO baiduEmployVO = apiService.baiduEmploy(baiduEmployDTO);
         return DataResponse.of(baiduEmployVO);
     }
+
+    @RequestMapping("/iphonesearch")
+    public DataResponse iphoneSearch(IphoneSearchDTO iphoneSearchDTO) {
+        return DataResponse.of();
+    }
+
 }

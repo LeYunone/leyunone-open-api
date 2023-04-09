@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaiduEmployVO {
+public class BaiduEmployVO extends BaseVO{
 
     private List<String> successUrls;
     
