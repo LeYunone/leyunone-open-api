@@ -20,14 +20,21 @@ import java.util.Map;
 public class HttpApiDTO {
 
     private String url;
-    
-    private Map<String,String> headers;
-    
-    public HttpApiDTO.Post post(){
+
+    private Map<String, String> headers;
+
+    public HttpApiDTO.Post post() {
         HttpApiDTO.Post po = new HttpApiDTO.Post();
         po.setUrl(this.getUrl());
         po.setHeaders(this.getHeaders());
         return po;
+    }
+    
+    public HttpApiDTO.Get get(){
+        HttpApiDTO.Get get = new HttpApiDTO.Get();
+        get.setUrl(this.getUrl());
+        get.setHeaders(this.getHeaders());
+        return get;
     }
 
     /**
@@ -39,11 +46,22 @@ public class HttpApiDTO {
          * 值
          */
         private List<String> datas;
-    
-        private List<Map<String,Object>> mapDatas;
-        
+
+        private List<Map<String, Object>> mapDatas;
+
         private String data;
+
+    }
+
+    @Data
+    public static class Get extends HttpApiDTO {
+
+        /**
+         * 值
+         */
+        private List<String> params;
         
+        private String param;
     }
 }
 

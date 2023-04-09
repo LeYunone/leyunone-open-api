@@ -42,7 +42,23 @@ public class HttpService {
      *
      * @return
      */
-    public HttpResponse httpGetExecute() {
-        return HttpResponse.builder().buildSuccess();
+    public HttpResponse httpGetExecute(HttpApiDTO.Get get) {
+        HttpRequest httpr = HttpRequest
+                .post(get.getUrl());
+        if (CollectionUtil.isNotEmpty(get.getHeaders())) {
+            for (String key : get.getHeaders().keySet()) {
+                httpr.header(key, get.getHeaders().get(key));
+            }
+        }
+        if (!StringUtils.isEmpty(get.getParam())) {
+            httpr.body(get.getParam());
+        }
+//        if (!StringUtils.isEmpty(get.getParams())) {
+//            for (String param : get.getParams()) {
+//                httpr.form(param)
+//            }
+//        }
+        String body = httpr.execute().body();
+        return HttpResponse.builder().buildSuccess(body);
     }
 }
