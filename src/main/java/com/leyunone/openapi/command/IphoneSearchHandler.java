@@ -43,9 +43,28 @@ public class IphoneSearchHandler extends BaseHandler<IphoneSearchVO, IphoneSearc
             numb.replace(numb.length()-s.length(),numb.length(),s);
             iphone.add(prePhone+numb.toString()+sufPhone);
         }
-        HttpApiDTO.Get get = HttpApiDTO.Get.builder().build().get();
-        HttpResponse httpResponse = new HttpService().httpGetExecute(get);
-
+        HttpResponse httpResponse = null;
+        if(0==iphoneSearchDTO.getHttpType()){
+            //Get
+            HttpApiDTO.Get get = HttpApiDTO.Get.builder().build().get();
+            //请求手机归属地查询
+            httpResponse = new HttpService().httpGetExecute(get);
+        }else{
+            //Post
+            HttpApiDTO.Post post = HttpApiDTO.Post.builder().build().post();
+            httpResponse = new HttpService().httpPostExecute(post);
+        }
+        
+        //过滤掉省会
+        String provincial = iphoneSearchDTO.getProvincial();
+        //过滤掉城市
+        String city = iphoneSearchDTO.getCity();
+        String body = httpResponse.getBody();
+        List<String> resultIphone = new ArrayList<>();
+        if(body.contains(provincial) && body.contains(city)){
+            resultIphone.add(body);
+        }
+        
         return IphoneSearchVO.builder().build();
     }
 

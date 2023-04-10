@@ -2,14 +2,17 @@ package com.leyunone.openapi.common.dto;
 
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * @see com.leyunone.openapi.control.GoApiController#iphoneSearch(IphoneSearchDTO) 
  * @author LeYunone
  * @email 365627310@qq.com
  * @date 2023-04-09
+ * @see com.leyunone.openapi.control.GoApiController#iphoneSearch(IphoneSearchDTO)
  */
 @Data
-public class IphoneSearchDTO extends HttpApiDTO{
+public class IphoneSearchDTO extends HttpApiDTO {
 
     /**
      * 手机号
@@ -35,4 +38,24 @@ public class IphoneSearchDTO extends HttpApiDTO{
      * 城市
      */
     private String city;
+
+    /**
+     * 0 Get 1 Post
+     */
+    private Integer httpType = 0;
+
+    /**
+     * 请求头参数
+     */
+    private Map<String,String> headMap = new HashMap<>();
+
+    /**
+     * 请求体参数
+     */
+    private Map<String,String> dataMap = new HashMap<>();
+
+    /**
+     * 请求体
+     */
+    private String dataBody;
 }
