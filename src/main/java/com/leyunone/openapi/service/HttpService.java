@@ -33,6 +33,9 @@ public class HttpService {
         if (!StringUtils.isEmpty(post.getData())) {
             httpr.body(post.getData());
         }
+        if(CollectionUtil.isNotEmpty(post.getDataMap())){
+            httpr.form(post.getDataMap());
+        }
         String body = httpr.execute().body();
         return HttpResponse.builder().buildSuccess(body);
     }

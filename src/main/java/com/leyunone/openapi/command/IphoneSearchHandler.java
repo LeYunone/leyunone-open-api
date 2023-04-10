@@ -46,12 +46,13 @@ public class IphoneSearchHandler extends BaseHandler<IphoneSearchVO, IphoneSearc
         HttpResponse httpResponse = null;
         if(0==iphoneSearchDTO.getHttpType()){
             //Get
-            HttpApiDTO.Get get = HttpApiDTO.Get.builder().build().get();
+            HttpApiDTO.Get get = HttpApiDTO.Get.builder().headers(iphoneSearchDTO.getHeaders()).build().get();;
             //请求手机归属地查询
             httpResponse = new HttpService().httpGetExecute(get);
         }else{
             //Post
-            HttpApiDTO.Post post = HttpApiDTO.Post.builder().build().post();
+            HttpApiDTO.Post post = HttpApiDTO.Post.builder().headers(iphoneSearchDTO.getHeaders()).build().post();
+            post.setDataMap(iphoneSearchDTO.getDataMap());
             httpResponse = new HttpService().httpPostExecute(post);
         }
         

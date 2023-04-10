@@ -47,7 +47,7 @@ public class HttpApiDTO {
          */
         private List<String> datas;
 
-        private List<Map<String, Object>> mapDatas;
+        private Map<String, Object> dataMap;
 
         private String data;
 

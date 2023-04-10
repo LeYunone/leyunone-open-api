@@ -52,7 +52,7 @@ public class IphoneSearchDTO extends HttpApiDTO {
     /**
      * 请求体参数
      */
-    private Map<String,String> dataMap = new HashMap<>();
+    private Map<String,Object> dataMap = new HashMap<>();
 
     /**
      * 请求体
