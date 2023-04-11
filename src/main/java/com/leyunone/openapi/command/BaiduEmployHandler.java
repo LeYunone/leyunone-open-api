@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,21 +41,24 @@ public class BaiduEmployHandler extends BaseHandler<BaiduEmployVO,BaiduEmployDTO
         map.put("User-Agent", "curl/7.12.1");
         map.put("Content-Length", "83");
         map.put("Content-Type", "text/plain");
-        HttpApiDTO.Post post = HttpApiDTO.builder().url(url).headers(map).build().post();
+        HttpApiDTO post = HttpApiDTO.builder().url(url).headers(map).build();
         List<String> urls = this.baiduEmployUrl(baiduEmployDTO);
-        post.setData(MyStrUtils.join(urls, '\n'));
+        post.setBody(MyStrUtils.join(urls, '\n'));
         HttpResponse httpResponse = httpService.httpPostExecute(post);
         return BaiduEmployVO.builder().httpResponse(httpResponse).successUrls(urls).build();
     }
 
     private List<String> baiduEmployUrl(BaiduEmployDTO baiduEmployDTO) {
-        List<String> urlParam = null;
-        if (CollectionUtil.isEmpty(baiduEmployDTO.getUrls()) && !StringUtils.isEmpty(baiduEmployDTO.getSitemapUrl())) {
+        List<String> urlParam = new ArrayList<>();
+        if (!StringUtils.isEmpty(baiduEmployDTO.getSitemapUrl())) {
             //解析siteMap,得到url
-            urlParam = UrlAnalysisUtils.siteMapUrl2Str(baiduEmployDTO.getSitemapUrl());
+            List<String> strings = UrlAnalysisUtils.siteMapUrl2Str(baiduEmployDTO.getSitemapUrl());
+            if(CollectionUtil.isNotEmpty(strings)){
+                urlParam.addAll(strings);
+            }
         }
         if (CollectionUtil.isNotEmpty(baiduEmployDTO.getUrls())) {
-            urlParam = baiduEmployDTO.getUrls();
+            urlParam.addAll(baiduEmployDTO.getUrls());
         }
         return urlParam;
     }

@@ -22,46 +22,10 @@ public class HttpApiDTO {
     private String url;
 
     private Map<String, String> headers;
-
-    public HttpApiDTO.Post post() {
-        HttpApiDTO.Post po = new HttpApiDTO.Post();
-        po.setUrl(this.getUrl());
-        po.setHeaders(this.getHeaders());
-        return po;
-    }
     
-    public HttpApiDTO.Get get(){
-        HttpApiDTO.Get get = new HttpApiDTO.Get();
-        get.setUrl(this.getUrl());
-        get.setHeaders(this.getHeaders());
-        return get;
-    }
+    private String body;
 
-    /**
-     * Post 请求
-     */
-    @Data
-    public static class Post extends HttpApiDTO {
-        /**
-         * 值
-         */
-        private List<String> datas;
+    private Map<String, Object> dataMap;
 
-        private Map<String, Object> dataMap;
-
-        private String data;
-
-    }
-
-    @Data
-    public static class Get extends HttpApiDTO {
-
-        /**
-         * 值
-         */
-        private List<String> params;
-        
-        private String param;
-    }
 }
 

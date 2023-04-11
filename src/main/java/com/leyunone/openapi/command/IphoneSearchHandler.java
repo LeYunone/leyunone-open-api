@@ -44,16 +44,14 @@ public class IphoneSearchHandler extends BaseHandler<IphoneSearchVO, IphoneSearc
             iphone.add(prePhone+numb.toString()+sufPhone);
         }
         HttpResponse httpResponse = null;
+        HttpApiDTO http = HttpApiDTO.builder().url(iphoneSearchDTO.getUrl()).headers(iphoneSearchDTO.getHeaders()).build();;
         if(0==iphoneSearchDTO.getHttpType()){
             //Get
-            HttpApiDTO.Get get = HttpApiDTO.Get.builder().headers(iphoneSearchDTO.getHeaders()).build().get();;
             //请求手机归属地查询
-            httpResponse = new HttpService().httpGetExecute(get);
+            httpResponse = httpService.httpGetExecute(http);
         }else{
             //Post
-            HttpApiDTO.Post post = HttpApiDTO.Post.builder().headers(iphoneSearchDTO.getHeaders()).build().post();
-            post.setDataMap(iphoneSearchDTO.getDataMap());
-            httpResponse = new HttpService().httpPostExecute(post);
+            httpResponse = httpService.httpPostExecute(http);
         }
         
         //过滤掉省会

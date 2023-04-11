@@ -22,20 +22,11 @@ public class HttpService {
      *
      * @return
      */
-    public HttpResponse httpPostExecute(HttpApiDTO.Post post) {
+    public HttpResponse httpPostExecute(HttpApiDTO post) {
         HttpRequest httpr = HttpRequest
                 .post(post.getUrl());
-        if (CollectionUtil.isNotEmpty(post.getHeaders())) {
-            for (String key : post.getHeaders().keySet()) {
-                httpr.header(key, post.getHeaders().get(key));
-            }
-        }
-        if (!StringUtils.isEmpty(post.getData())) {
-            httpr.body(post.getData());
-        }
-        if(CollectionUtil.isNotEmpty(post.getDataMap())){
-            httpr.form(post.getDataMap());
-        }
+        this.packHttp(httpr,post);
+        
         String body = httpr.execute().body();
         return HttpResponse.builder().buildSuccess(body);
     }
@@ -45,23 +36,26 @@ public class HttpService {
      *
      * @return
      */
-    public HttpResponse httpGetExecute(HttpApiDTO.Get get) {
+    public HttpResponse httpGetExecute(HttpApiDTO get) {
         HttpRequest httpr = HttpRequest
-                .post(get.getUrl());
-        if (CollectionUtil.isNotEmpty(get.getHeaders())) {
-            for (String key : get.getHeaders().keySet()) {
-                httpr.header(key, get.getHeaders().get(key));
-            }
-        }
-        if (!StringUtils.isEmpty(get.getParam())) {
-            httpr.body(get.getParam());
-        }
-//        if (!StringUtils.isEmpty(get.getParams())) {
-//            for (String param : get.getParams()) {
-//                httpr.form(param)
-//            }
-//        }
+                .get(get.getUrl());
+        this.packHttp(httpr,get);
+        
         String body = httpr.execute().body();
         return HttpResponse.builder().buildSuccess(body);
+    }
+    
+    private void packHttp(HttpRequest httpr,HttpApiDTO http){
+        if (CollectionUtil.isNotEmpty(http.getHeaders())) {
+            for (String key : http.getHeaders().keySet()) {
+                httpr.header(key, http.getHeaders().get(key));
+            }
+        }
+        if (!StringUtils.isEmpty(http.getBody())) {
+            httpr.body(http.getBody());
+        }
+        if(CollectionUtil.isNotEmpty(http.getDataMap())){
+            httpr.form(http.getDataMap());
+        }
     }
 }
