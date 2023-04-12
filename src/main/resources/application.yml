@@ -1,0 +1,5 @@
+server:
+  port: 7878
+spring:
+  application:
+    name: leyunone-open-api
