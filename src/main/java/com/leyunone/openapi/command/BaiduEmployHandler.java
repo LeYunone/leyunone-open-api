@@ -11,6 +11,7 @@ import com.leyunone.openapi.service.HttpService;
 import com.leyunone.openapi.util.MyStrUtils;
 import com.leyunone.openapi.util.UrlAnalysisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -43,8 +44,18 @@ public class BaiduEmployHandler extends BaseHandler<BaiduEmployVO,BaiduEmployDTO
         map.put("Content-Type", "text/plain");
         HttpApiDTO post = HttpApiDTO.builder().url(url).headers(map).build();
         List<String> urls = this.baiduEmployUrl(baiduEmployDTO);
+
         post.setBody(MyStrUtils.join(urls, '\n'));
         HttpResponse httpResponse = httpService.httpPostExecute(post);
+        String body = httpResponse.getBody();
+        if(body.contains("\"message\":\"over quota\"")){
+            //超过
+            if(CollectionUtil.isNotEmpty(urls) && urls.size()>100){
+                //最大100
+                urls = urls.subList(0,100);
+            }
+            httpResponse = httpService.httpPostExecute(post);
+        }
         return BaiduEmployVO.builder().httpResponse(httpResponse).successUrls(urls).build();
     }
 
