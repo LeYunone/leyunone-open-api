@@ -4,6 +4,7 @@ import com.leyunone.openapi.common.dto.BaiduEmployDTO;
 import com.leyunone.openapi.common.dto.IphoneSearchDTO;
 import com.leyunone.openapi.common.response.DataResponse;
 import com.leyunone.openapi.common.vo.BaiduEmployVO;
+import com.leyunone.openapi.common.vo.IphoneSearchVO;
 import com.leyunone.openapi.service.ApiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,8 @@ public class GoApiController {
 
     @RequestMapping("/iphonesearch")
     public DataResponse iphoneSearch(IphoneSearchDTO iphoneSearchDTO) {
-        return DataResponse.of();
+        IphoneSearchVO iphoneSearchVO = apiService.iphoneSearch(iphoneSearchDTO);
+        return DataResponse.of(iphoneSearchVO);
     }
 
 }
