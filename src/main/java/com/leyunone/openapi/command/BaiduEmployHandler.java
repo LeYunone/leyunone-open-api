@@ -52,7 +52,8 @@ public class BaiduEmployHandler extends BaseHandler<BaiduEmployVO,BaiduEmployDTO
             //超过
             if(CollectionUtil.isNotEmpty(urls) && urls.size()>100){
                 //最大100
-                urls = urls.subList(0,99);
+                urls = urls.subList(0,100);
+                post.setBody(MyStrUtils.join(urls,'\n'));
             }
             httpResponse = httpService.httpPostExecute(post);
         }
