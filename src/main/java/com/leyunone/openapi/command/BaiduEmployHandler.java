@@ -15,10 +15,7 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author LeYunone
@@ -48,6 +45,7 @@ public class BaiduEmployHandler extends BaseHandler<BaiduEmployVO,BaiduEmployDTO
         post.setBody(MyStrUtils.join(urls, '\n'));
         HttpResponse httpResponse = httpService.httpPostExecute(post);
         String body = httpResponse.getBody();
+        Collections.shuffle(urls);
         if(body.contains("\"message\":\"over quota\"")){
             //超过
             if(CollectionUtil.isNotEmpty(urls) && urls.size()>100){
