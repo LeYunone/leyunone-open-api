@@ -3,3 +3,18 @@ server:
 spring:
   application:
     name: leyunone-open-api
+    
+# XXL-JOb 
+xxl:
+  job:
+    admin:
+      addresses: http://XXXXXXX:9999/xxl-job-admin
+    accessToken:
+    executor:
+      appname: xxl-job-executor-test
+      address:
+      ip:
+      port: 9999
+      logpath:
+      logretentiondays: 30
+
